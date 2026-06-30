@@ -1,416 +1,223 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>好茶時光 | 精品手搖飲</title>
-    <style>
-        /* 全局設定 */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Helvetica Neue', Arial, 'LiHei Pro', '微軟正黑體', sans-serif;
-        }
-        body {
-            background-color: #f9f9f9;
-            color: #333;
-            line-height: 1.6;
-            scroll-behavior: smooth; /* 加入平滑滾動效果 */
-        }
-
-        /* 導覽列 */
-        header {
-            background-color: #2c4a3b;
-            color: white;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        header h1 {
-            font-size: 1.5rem;
-            letter-spacing: 2px;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-left: 1.5rem;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-        nav a:hover {
-            color: #b5d596;
-        }
-
-        /* 品牌介紹區塊 */
-        .hero {
-            background: linear-gradient(rgba(44, 74, 59, 0.85), rgba(44, 74, 59, 0.85)), url('https://images.unsplash.com/photo-1558160074-4d7d8bdf4256?auto=format&fit=crop&w=1920&q=80') center/cover;
-            color: white;
-            text-align: center;
-            padding: 120px 20px;
-        }
-        .hero h2 {
-            font-size: 2.8rem;
-            margin-bottom: 20px;
-            letter-spacing: 2px;
-        }
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 650px;
-            margin: 0 auto;
-            line-height: 1.8;
-            color: #e0e0e0;
-        }
-
-        /* 商品展示區塊 (RWD Grid) */
-        .menu-section {
-            padding: 80px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .section-title {
-            text-align: center;
-            font-size: 2.2rem;
-            margin-bottom: 50px;
-            color: #2c4a3b;
-            position: relative;
-        }
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 3px;
-            background-color: #2c4a3b;
-            margin: 15px auto 0;
-        }
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-        }
-        .product-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-        }
-        .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-        }
-        .product-card img {
-            width: 100%;
-            height: 280px;
-            object-fit: cover;
-        }
-        .product-info {
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-        .product-info h3 {
-            margin-bottom: 12px;
-            font-size: 1.4rem;
-            color: #2c4a3b;
-        }
-        .product-info p {
-            color: #666;
-            font-size: 1rem;
-            margin-bottom: 20px;
-            flex-grow: 1;
-        }
-        .price {
-            font-size: 1.3rem;
-            color: #d35400;
-            font-weight: bold;
-        }
-
-        /* 點餐表單區塊 */
-        .order-section {
-            background-color: #eaeaea;
-            padding: 80px 20px;
-        }
-        .order-form {
-            max-width: 600px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-        }
-        .form-group {
-            margin-bottom: 25px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: bold;
-            color: #444;
-        }
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: #2c4a3b;
-        }
-        .submit-btn {
-            width: 100%;
-            padding: 16px;
-            background-color: #2c4a3b;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s, transform 0.1s;
-        }
-        .submit-btn:hover {
-            background-color: #1e3328;
-        }
-        .submit-btn:active {
-            transform: scale(0.98);
-        }
-
-        /* 自訂彈出視窗 (Modal) */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.6);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .modal-overlay.show {
-            display: flex;
-            opacity: 1;
-        }
-        .modal-content {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-            transform: translateY(-20px);
-            transition: transform 0.3s ease;
-        }
-        .modal-overlay.show .modal-content {
-            transform: translateY(0);
-        }
-        .modal-content h3 {
-            color: #2c4a3b;
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-        }
-        .modal-content p {
-            color: #666;
-            margin-bottom: 25px;
-            font-size: 1.1rem;
-        }
-        .close-btn {
-            background-color: #d35400;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .close-btn:hover {
-            background-color: #a04000;
-        }
-
-        /* 頁尾 */
-        footer {
-            background-color: #222;
-            color: #aaa;
-            text-align: center;
-            padding: 30px 20px;
-            font-size: 0.95rem;
-        }
-
-        /* 手機版調整 */
-        @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                text-align: center;
-                padding: 1rem;
-            }
-            nav {
-                margin-top: 15px;
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 10px;
-            }
-            nav a {
-                margin: 5px 10px;
-            }
-            .hero h2 {
-                font-size: 2.2rem;
-            }
-            .section-title {
-                font-size: 1.8rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="上上籤將好運、儀式感與高品質現萃茶飲放進每一杯，陪你為平凡日常抽一支好籤。">
+  <title>上上籤｜喝一杯好茶，為今天抽一支好籤</title>
+  <style>
+    :root {
+      --ink: #173c32;
+      --green: #245848;
+      --jade: #3f7463;
+      --cream: #f7f1e5;
+      --paper: #fffdf8;
+      --gold: #c99a42;
+      --red: #a83a2f;
+      --text: #293732;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      color: var(--text);
+      background: var(--paper);
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.8;
+    }
+    a { color: inherit; }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px clamp(22px, 6vw, 90px);
+      color: #fff;
+      background: rgba(23, 60, 50, .96);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 24px rgba(12, 39, 31, .12);
+    }
+    .logo { font-family: serif; font-size: 1.55rem; font-weight: 800; letter-spacing: .22em; }
+    nav { display: flex; gap: 28px; }
+    nav a { text-decoration: none; font-size: .95rem; letter-spacing: .08em; opacity: .9; }
+    nav a:hover { color: #ead19a; }
+    .hero {
+      min-height: 82vh;
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 110px 24px;
+      color: #fff;
+      text-align: center;
+      background:
+        linear-gradient(135deg, rgba(17, 55, 45, .93), rgba(29, 78, 63, .76)),
+        url("https://images.unsplash.com/photo-1558160074-4d7d8bdf4256?auto=format&fit=crop&w=1920&q=85") center/cover;
+    }
+    .hero::before, .hero::after {
+      content: "上";
+      position: absolute;
+      font-family: serif;
+      font-size: min(32vw, 420px);
+      color: rgba(255,255,255,.035);
+      line-height: 1;
+    }
+    .hero::before { left: -4vw; top: -4vw; }
+    .hero::after { right: -4vw; bottom: -8vw; }
+    .hero-inner { position: relative; z-index: 1; max-width: 860px; }
+    .eyebrow { color: #ead19a; font-size: .85rem; letter-spacing: .35em; margin-bottom: 18px; }
+    .hero h1 { font-family: serif; font-size: clamp(2.7rem, 7vw, 5.6rem); letter-spacing: .13em; line-height: 1.18; }
+    .hero h2 { margin: 18px 0; font-size: clamp(1.15rem, 2.4vw, 1.65rem); font-weight: 500; letter-spacing: .16em; }
+    .hero p { max-width: 650px; margin: 0 auto 32px; color: rgba(255,255,255,.82); }
+    .hero-cta { display: inline-block; padding: 11px 26px; border: 1px solid #e8ca8b; color: #fff; text-decoration: none; letter-spacing: .12em; transition: .25s; }
+    .hero-cta:hover { background: #e8ca8b; color: var(--ink); }
+    section { padding: 92px clamp(22px, 6vw, 90px); }
+    .section-heading { text-align: center; margin-bottom: 45px; }
+    .section-heading span { color: var(--gold); font-size: .8rem; letter-spacing: .25em; }
+    .section-heading h2 { color: var(--ink); font-family: serif; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: .08em; }
+    .story { background: var(--cream); }
+    .story-wrap { max-width: 940px; margin: auto; display: grid; grid-template-columns: 130px 1fr; gap: 48px; align-items: start; }
+    .seal {
+      width: 118px; height: 118px; display: grid; place-items: center;
+      border: 2px solid var(--red); color: var(--red); font-family: serif;
+      font-size: 2rem; font-weight: 800; letter-spacing: .12em; transform: rotate(-3deg);
+    }
+    .story-copy { font-size: 1.08rem; }
+    .story-copy p + p { margin-top: 17px; }
+    .founder { margin-top: 24px; color: var(--green); font-weight: 700; letter-spacing: .05em; }
+    .features { background: var(--paper); }
+    .feature-grid { max-width: 1120px; margin: auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .feature-card { padding: 34px 28px; border: 1px solid #e4ddce; background: #fff; }
+    .feature-card .num { color: var(--gold); font-family: serif; font-size: 1.15rem; }
+    .feature-card h3 { color: var(--ink); margin: 12px 0 8px; font-size: 1.25rem; }
+    .feature-card p { color: #69736f; font-size: .95rem; }
+    .menu { background: #eef2ed; }
+    .drink-grid { max-width: 1120px; margin: auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+    .drink { overflow: hidden; background: #fff; box-shadow: 0 10px 30px rgba(21,60,49,.07); }
+    .drink img { display: block; width: 100%; height: 290px; object-fit: cover; }
+    .drink-copy { padding: 24px; }
+    .drink h3 { color: var(--ink); font-size: 1.28rem; }
+    .drink p { color: #6d7773; margin: 6px 0 14px; font-size: .95rem; }
+    .drink strong { color: var(--red); }
+    .order { background: var(--ink); color: #fff; }
+    .order .section-heading h2 { color: #fff; }
+    form { max-width: 640px; margin: auto; padding: 34px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.16); }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    label { display: block; margin-bottom: 7px; color: #e8dfcc; font-size: .9rem; }
+    input, select { width: 100%; padding: 12px 13px; border: 1px solid rgba(255,255,255,.24); background: #fff; color: var(--text); font-size: 1rem; }
+    button { width: 100%; margin-top: 22px; padding: 14px; border: 0; background: var(--gold); color: #fff; font-size: 1rem; font-weight: 700; letter-spacing: .12em; cursor: pointer; }
+    button:hover { background: #b48431; }
+    footer { padding: 36px 20px; text-align: center; background: #102d25; color: rgba(255,255,255,.65); font-size: .88rem; }
+    footer .tagline { margin-bottom: 8px; color: #ead19a; font-family: serif; font-size: 1.1rem; letter-spacing: .12em; }
+    dialog { margin: auto; max-width: 390px; padding: 35px; border: 0; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,.25); }
+    dialog::backdrop { background: rgba(8,28,22,.7); }
+    dialog h3 { color: var(--ink); font-size: 1.5rem; }
+    dialog p { margin: 10px 0 20px; color: #65706b; }
+    dialog button { margin: 0; }
+    @media (max-width: 760px) {
+      header { flex-direction: column; gap: 8px; }
+      nav { gap: 18px; }
+      .hero { min-height: 75vh; }
+      .story-wrap { grid-template-columns: 1fr; gap: 25px; }
+      .seal { margin: auto; }
+      .feature-grid, .drink-grid { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <div class="logo">上上籤</div>
+    <nav aria-label="主要選單">
+      <a href="#story">品牌故事</a>
+      <a href="#features">品牌特色</a>
+      <a href="#menu">人氣飲品</a>
+      <a href="#order">線上點單</a>
+    </nav>
+  </header>
 
-    <header>
-        <h1>好茶時光</h1>
-        <nav>
-            <a href="#about">品牌介紹</a>
-            <a href="#menu">熱門飲品</a>
-            <a href="#order">立即點餐</a>
-        </nav>
-    </header>
-
-    <section id="about" class="hero">
-        <h2>堅持純粹，品味回甘</h2>
-        <p>源自對純粹好茶的執著，「好茶時光」走訪台灣各地茶園，嚴選頂級一心二葉。我們堅持不添加人工香料，以最純粹的茶湯，搭配產地直送的新鮮水果與在地小農鮮乳，為您調製每一杯專屬的療癒時光。讓每一次品茗，都是一場與美好相遇的旅程。</p>
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-inner">
+        <div class="eyebrow">GOOD TEA · GOOD FORTUNE</div>
+        <h1 id="hero-title">上上籤</h1>
+        <h2>喝一杯好茶，為今天抽一支好籤</h2>
+        <p>我們把現萃茶香、生活儀式與一點剛剛好的好運放進杯裡，陪你在平凡日常中，找到值得期待的小小片刻。</p>
+        <a class="hero-cta" href="#story">讀我們的故事</a>
+      </div>
     </section>
 
-    <section id="menu" class="menu-section">
-        <h2 class="section-title">熱銷推薦</h2>
-        <div class="grid-container">
-            
-            <div class="product-card">
-                <img src="https://images.unsplash.com/photo-1556881286-fc6915169721?auto=format&fit=crop&w=600&q=80" alt="經典珍珠奶茶">
-                <div class="product-info">
-                    <h3>經典黑糖珍珠奶茶</h3>
-                    <p>職人每日手工慢火熬煮黑糖，搭配 Q 彈帶勁的波霸珍珠，融合醇厚小農鮮乳，是您絕對不能錯過的經典不敗美味。</p>
-                    <div class="price">NT$ 65</div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <img src="https://images.unsplash.com/photo-1558160074-4d7d8bdf4256?auto=format&fit=crop&w=600&q=80" alt="滿杯水果茶">
-                <div class="product-info">
-                    <h3>盛夏滿杯水果茶</h3>
-                    <p>以埔里百香果與茉莉綠茶為基底，加入當季新鮮蘋果、柳橙切片與芭樂，果香四溢，清爽解膩的首選。</p>
-                    <div class="price">NT$ 75</div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <img src="https://images.unsplash.com/photo-1589396575653-c09c794ff6a6?auto=format&fit=crop&w=600&q=80" alt="芝士奶蓋紅">
-                <div class="product-info">
-                    <h3>海鹽芝士奶蓋紅茶</h3>
-                    <p>特選頂級斯里蘭卡錫蘭紅茶，鋪上厚厚一層綿密微鹹的海鹽起司奶蓋，茶香與奶香層次分明，令人回味無窮。</p>
-                    <div class="price">NT$ 70</div>
-                </div>
-            </div>
-
+    <section id="story" class="story">
+      <div class="section-heading">
+        <span>OUR STORY</span>
+        <h2>一杯飲料，也能是一份好兆頭</h2>
+      </div>
+      <div class="story-wrap">
+        <div class="seal" aria-hidden="true">好籤</div>
+        <div class="story-copy">
+          <p>上上籤的故事，始於創辦人柯維宏一個簡單的相信：一杯飲料不只為了解渴，也能替忙碌的生活添一點好運、一點能量，和一份屬於自己的日常儀式感。</p>
+          <p>於是，我們把熟悉的抽籤文化重新想像。不談迷信，也不預言未來，而是以年輕、現代、有趣的方式，把一句鼓勵、一個期待，放進每次選茶與舉杯的片刻。無論是上課前的提神、下班後的犒賞，還是與喜歡的人分享的午後，都能從一杯茶開始，讓今天多一個值得微笑的理由。</p>
+          <p>從高品質現萃茶湯、創新飲品研發，到每一處好拍、好玩的品牌設計，我們在意的不只是風味，更是你拿到這杯飲料時的心情。希望每個走進上上籤的人，離開時手裡有一杯好茶，心裡也多了一份正向力量。</p>
+          <p class="founder">— 上上籤創辦人 柯維宏</p>
         </div>
+      </div>
     </section>
 
-    <section id="order" class="order-section">
-        <h2 class="section-title">線上快速點餐</h2>
-        <div class="order-form">
-            <form id="beverageOrderForm">
-                <div class="form-group">
-                    <label for="name">您的姓名</label>
-                    <input type="text" id="name" name="name" required placeholder="請輸入您的姓名">
-                </div>
-                <div class="form-group">
-                    <label for="drink">選擇飲品</label>
-                    <select id="drink" name="drink" required>
-                        <option value="">請選擇您想喝的飲品...</option>
-                        <option value="boba">經典黑糖珍珠奶茶</option>
-                        <option value="fruit">盛夏滿杯水果茶</option>
-                        <option value="cheese">海鹽芝士奶蓋紅茶</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="sugar">甜度選擇</label>
-                    <select id="sugar" name="sugar">
-                        <option value="normal">正常糖 (100%)</option>
-                        <option value="less">少糖 (70%)</option>
-                        <option value="half">半糖 (50%)</option>
-                        <option value="quarter">微糖 (30%)</option>
-                        <option value="none">無糖 (0%)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="ice">冰塊選擇</label>
-                    <select id="ice" name="ice">
-                        <option value="normal">正常冰</option>
-                        <option value="less">少冰</option>
-                        <option value="micro">微冰</option>
-                        <option value="none">去冰</option>
-                        <option value="hot">熱飲</option>
-                    </select>
-                </div>
-                <button type="submit" class="submit-btn">送出訂單</button>
-            </form>
-        </div>
+    <section id="features" class="features">
+      <div class="section-heading"><span>WHY US</span><h2>不只好喝，也讓日常更有意思</h2></div>
+      <div class="feature-grid">
+        <article class="feature-card"><div class="num">01</div><h3>抽一支今日好籤</h3><p>把傳統籤文化變成年輕、有趣的互動，讓每次喝茶，都像收到一句剛剛好的鼓勵。</p></article>
+        <article class="feature-card"><div class="num">02</div><h3>現萃一杯好茶</h3><p>講究茶葉、香氣與沖泡細節，以穩定品質守住每一杯清爽、平衡的好味道。</p></article>
+        <article class="feature-card"><div class="num">03</div><h3>創造值得分享的片刻</h3><p>從限定新品到高辨識度設計，讓一杯飲料成為你願意拍下、分享，也記得住的日常風景。</p></article>
+      </div>
     </section>
 
-    <footer>
-        <p>&copy; 2026 好茶時光 精品手搖飲. All Rights Reserved.</p>
-    </footer>
+    <section id="menu" class="menu">
+      <div class="section-heading"><span>SIGNATURE DRINKS</span><h2>今日宜，喝杯好茶</h2></div>
+      <div class="drink-grid">
+        <article class="drink"><img src="https://images.unsplash.com/photo-1556881286-fc6915169721?auto=format&fit=crop&w=800&q=85" alt="珍珠鮮奶茶"><div class="drink-copy"><h3>上上珍珠鮮奶茶</h3><p>醇厚茶香、滑順鮮奶與每日熬煮珍珠，經典也能有新的好心情。</p><strong>NT$ 65</strong></div></article>
+        <article class="drink"><img src="https://images.unsplash.com/photo-1558160074-4d7d8bdf4256?auto=format&fit=crop&w=800&q=85" alt="現萃水果茶"><div class="drink-copy"><h3>好運現萃水果茶</h3><p>清爽茶湯揉合當季果香，酸甜明亮，替午後補上一格元氣。</p><strong>NT$ 75</strong></div></article>
+        <article class="drink"><img src="https://images.unsplash.com/photo-1589396575653-c09c794ff6a6?auto=format&fit=crop&w=800&q=85" alt="芝士奶蓋茶"><div class="drink-copy"><h3>金籤芝士奶蓋</h3><p>鹹甜綿密奶蓋覆上現萃茶湯，層次豐富，是犒賞自己的最佳理由。</p><strong>NT$ 70</strong></div></article>
+      </div>
+    </section>
 
-    <!-- 成功提示彈出視窗 -->
-    <div id="successModal" class="modal-overlay">
-        <div class="modal-content">
-            <h3>🎉 點餐成功！</h3>
-            <p>感謝您的訂購，您的專屬飲品正在用心製作中。<br>請稍候片刻。</p>
-            <button class="close-btn" onclick="closeModal()">我知道了</button>
+    <section id="order" class="order">
+      <div class="section-heading"><span>ORDER YOUR LUCK</span><h2>今天，想抽哪一杯？</h2></div>
+      <form id="orderForm">
+        <div class="form-grid">
+          <div><label for="name">你的名字</label><input id="name" name="name" required placeholder="請輸入姓名"></div>
+          <div><label for="drink">選擇飲品</label><select id="drink" name="drink" required><option value="">請選擇</option><option>上上珍珠鮮奶茶</option><option>好運現萃水果茶</option><option>金籤芝士奶蓋</option></select></div>
+          <div><label for="sugar">甜度</label><select id="sugar" name="sugar"><option>正常甜</option><option>少糖</option><option>半糖</option><option>微糖</option><option>無糖</option></select></div>
+          <div><label for="ice">冰量</label><select id="ice" name="ice"><option>正常冰</option><option>少冰</option><option>微冰</option><option>去冰</option><option>熱飲</option></select></div>
         </div>
-    </div>
+        <button type="submit">抽出我的今日好茶</button>
+      </form>
+    </section>
+  </main>
 
-    <script>
-        // 處理表單提交
-        document.getElementById('beverageOrderForm').addEventListener('submit', function(event) {
-            // 阻止表單預設的跳轉行為
-            event.preventDefault();
-            
-            // 顯示彈出視窗
-            const modal = document.getElementById('successModal');
-            modal.classList.add('show');
-        });
+  <footer>
+    <p class="tagline">上上籤——願每一杯好茶，都替今天添一點好運。</p>
+    <p>© 2026 上上籤 All Rights Reserved.</p>
+  </footer>
 
-        // 關閉彈出視窗並清空表單
-        function closeModal() {
-            const modal = document.getElementById('successModal');
-            modal.classList.remove('show');
-            
-            // 清空表單
-            document.getElementById('beverageOrderForm').reset();
-        }
+  <dialog id="successDialog">
+    <h3>今天抽到上上籤！</h3>
+    <p>已收到你的飲品選擇。願這杯好茶，為今天帶來一點剛剛好的幸運。</p>
+    <button type="button" id="closeDialog">收下好運</button>
+  </dialog>
 
-        // 點擊視窗外部也能關閉
-        document.getElementById('successModal').addEventListener('click', function(event) {
-            if (event.target === this) {
-                closeModal();
-            }
-        });
-    </script>
+  <script>
+    const form = document.querySelector('#orderForm');
+    const dialog = document.querySelector('#successDialog');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      dialog.showModal();
+    });
+    document.querySelector('#closeDialog').addEventListener('click', () => {
+      dialog.close();
+      form.reset();
+    });
+  </script>
 </body>
 </html>
