@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>好茶時光 | 精品手搖飲</title>
+    <style>
+        /* 全局設定 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, 'LiHei Pro', '微軟正黑體', sans-serif;
+        }
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+            scroll-behavior: smooth; /* 加入平滑滾動效果 */
+        }
+
+        /* 導覽列 */
+        header {
+            background-color: #2c4a3b;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        header h1 {
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #b5d596;
+        }
+
+        /* 品牌介紹區塊 */
+        .hero {
+            background: linear-gradient(rgba(44, 74, 59, 0.85), rgba(44, 74, 59, 0.85)), url('https://images.unsplash.com/photo-1558160074-4d7d8bdf4256?auto=format&fit=crop&w=1920&q=80') center/cover;
+            color: white;
+            text-align: center;
+            padding: 120px 20px;
+        }
+        .hero h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 650px;
+            margin: 0 auto;
+            line-height: 1.8;
+            color: #e0e0e0;
+        }
+
+        /* 商品展示區塊 (RWD Grid) */
+        .menu-section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 50px;
+            color: #2c4a3b;
+            position: relative;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background-color: #2c4a3b;
+            margin: 15px auto 0;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        .product-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+        }
+        .product-info {
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .product-info h3 {
+            margin-bottom: 12px;
+            font-size: 1.4rem;
+            color: #2c4a3b;
+        }
+        .product-info p {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        .price {
+            font-size: 1.3rem;
+            color: #d35400;
+            font-weight: bold;
+        }
+
+        /* 點餐表單區塊 */
+        .order-section {
+            background-color: #eaeaea;
+            padding: 80px 20px;
+        }
+        .order-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+        .form-group {
+            margin-bottom: 25px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #444;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #2c4a3b;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background-color: #2c4a3b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.1s;
+        }
+        .submit-btn:hover {
+            background-color: #1e3328;
+        }
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* 自訂彈出視窗 (Modal) */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.show {
+            display: flex;
+            opacity: 1;
+        }
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.show .modal-content {
+            transform: translateY(0);
+        }
+        .modal-content h3 {
+            color: #2c4a3b;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+        .modal-content p {
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+        }
+        .close-btn {
+            background-color: #d35400;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .close-btn:hover {
+            background-color: #a04000;
+        }
+
+        /* 頁尾 */
+        footer {
+            background-color: #222;
+            color: #aaa;
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 0.95rem;
+        }
+
+        /* 手機版調整 */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+                padding: 1rem;
+            }
+            nav {
+                margin-top: 15px;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+            nav a {
+                margin: 5px 10px;
+            }
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>好茶時光</h1>
+        <nav>
+            <a href="#about">品牌介紹</a>
+            <a href="#menu">熱門飲品</a>
+            <a href="#order">立即點餐</a>
+        </nav>
+    </header>
+
+    <section id="about" class="hero">
+        <h2>堅持純粹，品味回甘</h2>
+        <p>源自對純粹好茶的執著，「好茶時光」走訪台灣各地茶園，嚴選頂級一心二葉。我們堅持不添加人工香料，以最純粹的茶湯，搭配產地直送的新鮮水果與在地小農鮮乳，為您調製每一杯專屬的療癒時光。讓每一次品茗，都是一場與美好相遇的旅程。</p>
+    </section>
+
+    <section id="menu" class="menu-section">
+        <h2 class="section-title">熱銷推薦</h2>
+        <div class="grid-container">
+            
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1556881286-fc6915169721?auto=format&fit=crop&w=600&q=80" alt="經典珍珠奶茶">
+                <div class="product-info">
+                    <h3>經典黑糖珍珠奶茶</h3>
+                    <p>職人每日手工慢火熬煮黑糖，搭配 Q 彈帶勁的波霸珍珠，融合醇厚小農鮮乳，是您絕對不能錯過的經典不敗美味。</p>
+                    <div class="price">NT$ 65</div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1558160074-4d7d8bdf4256?auto=format&fit=crop&w=600&q=80" alt="滿杯水果茶">
+                <div class="product-info">
+                    <h3>盛夏滿杯水果茶</h3>
+                    <p>以埔里百香果與茉莉綠茶為基底，加入當季新鮮蘋果、柳橙切片與芭樂，果香四溢，清爽解膩的首選。</p>
+                    <div class="price">NT$ 75</div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1589396575653-c09c794ff6a6?auto=format&fit=crop&w=600&q=80" alt="芝士奶蓋紅">
+                <div class="product-info">
+                    <h3>海鹽芝士奶蓋紅茶</h3>
+                    <p>特選頂級斯里蘭卡錫蘭紅茶，鋪上厚厚一層綿密微鹹的海鹽起司奶蓋，茶香與奶香層次分明，令人回味無窮。</p>
+                    <div class="price">NT$ 70</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="order" class="order-section">
+        <h2 class="section-title">線上快速點餐</h2>
+        <div class="order-form">
+            <form id="beverageOrderForm">
+                <div class="form-group">
+                    <label for="name">您的姓名</label>
+                    <input type="text" id="name" name="name" required placeholder="請輸入您的姓名">
+                </div>
+                <div class="form-group">
+                    <label for="drink">選擇飲品</label>
+                    <select id="drink" name="drink" required>
+                        <option value="">請選擇您想喝的飲品...</option>
+                        <option value="boba">經典黑糖珍珠奶茶</option>
+                        <option value="fruit">盛夏滿杯水果茶</option>
+                        <option value="cheese">海鹽芝士奶蓋紅茶</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="sugar">甜度選擇</label>
+                    <select id="sugar" name="sugar">
+                        <option value="normal">正常糖 (100%)</option>
+                        <option value="less">少糖 (70%)</option>
+                        <option value="half">半糖 (50%)</option>
+                        <option value="quarter">微糖 (30%)</option>
+                        <option value="none">無糖 (0%)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="ice">冰塊選擇</label>
+                    <select id="ice" name="ice">
+                        <option value="normal">正常冰</option>
+                        <option value="less">少冰</option>
+                        <option value="micro">微冰</option>
+                        <option value="none">去冰</option>
+                        <option value="hot">熱飲</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-btn">送出訂單</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 好茶時光 精品手搖飲. All Rights Reserved.</p>
+    </footer>
+
+    <!-- 成功提示彈出視窗 -->
+    <div id="successModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3>🎉 點餐成功！</h3>
+            <p>感謝您的訂購，您的專屬飲品正在用心製作中。<br>請稍候片刻。</p>
+            <button class="close-btn" onclick="closeModal()">我知道了</button>
+        </div>
+    </div>
+
+    <script>
+        // 處理表單提交
+        document.getElementById('beverageOrderForm').addEventListener('submit', function(event) {
+            // 阻止表單預設的跳轉行為
+            event.preventDefault();
+            
+            // 顯示彈出視窗
+            const modal = document.getElementById('successModal');
+            modal.classList.add('show');
+        });
+
+        // 關閉彈出視窗並清空表單
+        function closeModal() {
+            const modal = document.getElementById('successModal');
+            modal.classList.remove('show');
+            
+            // 清空表單
+            document.getElementById('beverageOrderForm').reset();
+        }
+
+        // 點擊視窗外部也能關閉
+        document.getElementById('successModal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
