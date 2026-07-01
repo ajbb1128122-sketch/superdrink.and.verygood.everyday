@@ -7,14 +7,14 @@
   <title>上上籤｜喝一杯好茶，為今天抽一支好籤</title>
   <style>
     :root {
-      --ink: #173c32;
-      --green: #245848;
-      --jade: #3f7463;
-      --cream: #f7f1e5;
-      --paper: #fffdf8;
-      --gold: #c99a42;
-      --red: #a83a2f;
-      --text: #293732;
+      --ink: #60441f;
+      --green: #8b692f;
+      --jade: #b28a43;
+      --cream: #f8f0df;
+      --paper: #fffaf0;
+      --gold: #b98835;
+      --red: #a85d32;
+      --text: #55462f;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -34,14 +34,16 @@
       align-items: center;
       padding: 14px clamp(22px, 6vw, 90px);
       color: #fff;
-      background: rgba(23, 60, 50, .96);
+      background: rgba(255, 250, 240, .96);
+      color: var(--ink);
       backdrop-filter: blur(10px);
-      box-shadow: 0 4px 24px rgba(12, 39, 31, .12);
+      border-bottom: 1px solid rgba(185,136,53,.25);
+      box-shadow: 0 4px 24px rgba(96, 68, 31, .08);
     }
     .logo { font-family: serif; font-size: 1.55rem; font-weight: 800; letter-spacing: .22em; }
     nav { display: flex; gap: 28px; }
     nav a { text-decoration: none; font-size: .95rem; letter-spacing: .08em; opacity: .9; }
-    nav a:hover { color: #ead19a; }
+    nav a:hover { color: var(--gold); }
     .hero {
       min-height: 82vh;
       display: grid;
@@ -49,38 +51,94 @@
       position: relative;
       overflow: hidden;
       padding: 110px 24px;
-      color: #fff;
+      color: var(--ink);
       text-align: center;
       background:
-        linear-gradient(135deg, rgba(17, 55, 45, .93), rgba(29, 78, 63, .76)),
-        url("https://images.unsplash.com/photo-1558160074-4d7d8bdf4256?auto=format&fit=crop&w=1920&q=85") center/cover;
+        radial-gradient(ellipse at 50% 44%, rgba(255,255,255,.98), rgba(252,244,227,.91) 50%, rgba(218,185,126,.5)),
+        repeating-linear-gradient(90deg, transparent 0 79px, rgba(185,136,53,.055) 80px);
     }
     .hero::before, .hero::after {
       content: "上";
       position: absolute;
       font-family: serif;
       font-size: min(32vw, 420px);
-      color: rgba(255,255,255,.035);
+      color: rgba(185,136,53,.055);
       line-height: 1;
     }
     .hero::before { left: -4vw; top: -4vw; }
     .hero::after { right: -4vw; bottom: -8vw; }
-    .hero-inner { position: relative; z-index: 1; max-width: 860px; }
-    .eyebrow { color: #ead19a; font-size: .85rem; letter-spacing: .35em; margin-bottom: 18px; }
-    .hero h1 { font-family: serif; font-size: clamp(2.7rem, 7vw, 5.6rem); letter-spacing: .13em; line-height: 1.18; }
-    .hero h2 { margin: 18px 0; font-size: clamp(1.15rem, 2.4vw, 1.65rem); font-weight: 500; letter-spacing: .16em; }
-    .hero p { max-width: 650px; margin: 0 auto 32px; color: rgba(255,255,255,.82); }
-    .hero-cta { display: inline-block; padding: 11px 26px; border: 1px solid #e8ca8b; color: #fff; text-decoration: none; letter-spacing: .12em; transition: .25s; }
-    .hero-cta:hover { background: #e8ca8b; color: var(--ink); }
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 860px;
+      padding: clamp(48px, 7vw, 76px) clamp(28px, 8vw, 92px);
+      border: 1px solid rgba(185,136,53,.42);
+      background: rgba(255,252,245,.48);
+      box-shadow: 0 24px 80px rgba(121,82,25,.08), inset 0 0 45px rgba(255,255,255,.55);
+    }
+    .hero-inner::before, .hero-inner::after {
+      content: "◆";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 112px;
+      color: var(--gold);
+      background: #fbf2df;
+      font-size: .62rem;
+      letter-spacing: 1.2em;
+      text-indent: 1.2em;
+    }
+    .hero-inner::before { top: -9px; }
+    .hero-inner::after { bottom: -9px; }
+    .eyebrow { color: var(--gold); font-size: .82rem; letter-spacing: .38em; margin-bottom: 18px; }
+    .hero h1 {
+      position: relative;
+      display: inline-block;
+      font-family: serif;
+      font-size: clamp(3rem, 7vw, 5.7rem);
+      letter-spacing: .16em;
+      line-height: 1.18;
+      text-shadow: 0 8px 30px rgba(102,69,26,.12);
+    }
+    .hero h1::after {
+      content: "好運入籤";
+      position: absolute;
+      right: -52px;
+      top: 4px;
+      width: 28px;
+      padding: 7px 3px;
+      border: 1px solid #b35d39;
+      color: #a64e30;
+      font-family: serif;
+      font-size: .65rem;
+      line-height: 1.18;
+      letter-spacing: .08em;
+      writing-mode: vertical-rl;
+    }
+    .hero h2 { margin: 22px 0 18px; font-size: clamp(1.12rem, 2.4vw, 1.55rem); font-weight: 600; letter-spacing: .18em; }
+    .hero p { max-width: 650px; margin: 0 auto 34px; color: #7d6847; font-size: 1.02rem; }
+    .hero-cta {
+      display: inline-block;
+      position: relative;
+      padding: 12px 32px;
+      border: 1px solid var(--gold);
+      color: var(--ink);
+      background: rgba(255,255,255,.28);
+      text-decoration: none;
+      letter-spacing: .14em;
+      transition: .25s;
+      box-shadow: inset 0 0 0 4px rgba(255,250,240,.75), inset 0 0 0 5px rgba(185,136,53,.22);
+    }
+    .hero-cta:hover { background: var(--gold); color: #fff; box-shadow: none; transform: translateY(-2px); }
     section { padding: 92px clamp(22px, 6vw, 90px); }
     .section-heading { text-align: center; margin-bottom: 45px; }
     .section-heading span { color: var(--gold); font-size: .8rem; letter-spacing: .25em; }
     .section-heading h2 { color: var(--ink); font-family: serif; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: .08em; }
-    .story { background: var(--cream); }
+    .story { background: linear-gradient(135deg, #f9f1e2, #fffaf0); border-top: 1px solid #ead9bb; border-bottom: 1px solid #ead9bb; }
     .story-wrap { max-width: 940px; margin: auto; display: grid; grid-template-columns: 130px 1fr; gap: 48px; align-items: start; }
     .seal {
       width: 118px; height: 118px; display: grid; place-items: center;
-      border: 2px solid var(--red); color: var(--red); font-family: serif;
+      border: 2px solid var(--gold); color: var(--gold); font-family: serif;
       font-size: 2rem; font-weight: 800; letter-spacing: .12em; transform: rotate(-3deg);
     }
     .story-copy { font-size: 1.08rem; }
@@ -88,28 +146,29 @@
     .founder { margin-top: 24px; color: var(--green); font-weight: 700; letter-spacing: .05em; }
     .features { background: var(--paper); }
     .feature-grid { max-width: 1120px; margin: auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
-    .feature-card { padding: 34px 28px; border: 1px solid #e4ddce; background: #fff; }
+    .feature-card { padding: 34px 28px; border: 1px solid #e5cfaa; background: linear-gradient(180deg,#fffdf8,#fbf3e5); box-shadow: 0 12px 30px rgba(120,83,31,.06); }
     .feature-card .num { color: var(--gold); font-family: serif; font-size: 1.15rem; }
     .feature-card h3 { color: var(--ink); margin: 12px 0 8px; font-size: 1.25rem; }
     .feature-card p { color: #69736f; font-size: .95rem; }
-    .menu { background: #eef2ed; }
+    .menu { background: #f4ead8; }
     .drink-grid { max-width: 1120px; margin: auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
-    .drink { overflow: hidden; background: #fff; box-shadow: 0 10px 30px rgba(21,60,49,.07); }
-    .drink img { display: block; width: 100%; height: 290px; object-fit: cover; }
+    .drink { overflow: hidden; background: #fffdf8; border: 1px solid #e6d2ae; box-shadow: 0 12px 34px rgba(112,78,29,.09); transition: transform .25s, box-shadow .25s; }
+    .drink:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(112,78,29,.14); }
+    .drink img { display: block; width: 100%; height: 360px; object-fit: cover; object-position: center; }
     .drink-copy { padding: 24px; }
     .drink h3 { color: var(--ink); font-size: 1.28rem; }
     .drink p { color: #6d7773; margin: 6px 0 14px; font-size: .95rem; }
     .drink strong { color: var(--red); }
-    .order { background: var(--ink); color: #fff; }
-    .order .section-heading h2 { color: #fff; }
-    form { max-width: 640px; margin: auto; padding: 34px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.16); }
+    .order { background: linear-gradient(135deg,#76511f,#a67a36); color: #fff; }
+    .order .section-heading h2 { color: #fffaf0; }
+    form { max-width: 640px; margin: auto; padding: 34px; background: rgba(255,250,240,.1); border: 1px solid rgba(255,255,255,.25); }
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
     label { display: block; margin-bottom: 7px; color: #e8dfcc; font-size: .9rem; }
     input, select { width: 100%; padding: 12px 13px; border: 1px solid rgba(255,255,255,.24); background: #fff; color: var(--text); font-size: 1rem; }
     button { width: 100%; margin-top: 22px; padding: 14px; border: 0; background: var(--gold); color: #fff; font-size: 1rem; font-weight: 700; letter-spacing: .12em; cursor: pointer; }
     button:hover { background: #b48431; }
-    footer { padding: 36px 20px; text-align: center; background: #102d25; color: rgba(255,255,255,.65); font-size: .88rem; }
-    footer .tagline { margin-bottom: 8px; color: #ead19a; font-family: serif; font-size: 1.1rem; letter-spacing: .12em; }
+    footer { padding: 36px 20px; text-align: center; background: #4f3618; color: rgba(255,255,255,.7); font-size: .88rem; }
+    footer .tagline { margin-bottom: 8px; color: #f0d49d; font-family: serif; font-size: 1.1rem; letter-spacing: .12em; }
     dialog { margin: auto; max-width: 390px; padding: 35px; border: 0; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,.25); }
     dialog::backdrop { background: rgba(8,28,22,.7); }
     dialog h3 { color: var(--ink); font-size: 1.5rem; }
@@ -119,6 +178,8 @@
       header { flex-direction: column; gap: 8px; }
       nav { gap: 18px; }
       .hero { min-height: 75vh; }
+      .hero-inner { padding: 46px 24px; }
+      .hero h1::after { right: -35px; top: 0; }
       .story-wrap { grid-template-columns: 1fr; gap: 25px; }
       .seal { margin: auto; }
       .feature-grid, .drink-grid { grid-template-columns: 1fr; }
@@ -176,9 +237,13 @@
     <section id="menu" class="menu">
       <div class="section-heading"><span>SIGNATURE DRINKS</span><h2>今日宜，喝杯好茶</h2></div>
       <div class="drink-grid">
-        <article class="drink"><img src="https://images.unsplash.com/photo-1556881286-fc6915169721?auto=format&fit=crop&w=800&q=85" alt="珍珠鮮奶茶"><div class="drink-copy"><h3>上上珍珠鮮奶茶</h3><p>醇厚茶香、滑順鮮奶與每日熬煮珍珠，經典也能有新的好心情。</p><strong>NT$ 65</strong></div></article>
-        <article class="drink"><img src="https://images.unsplash.com/photo-1558160074-4d7d8bdf4256?auto=format&fit=crop&w=800&q=85" alt="現萃水果茶"><div class="drink-copy"><h3>好運現萃水果茶</h3><p>清爽茶湯揉合當季果香，酸甜明亮，替午後補上一格元氣。</p><strong>NT$ 75</strong></div></article>
-        <article class="drink"><img src="https://images.unsplash.com/photo-1589396575653-c09c794ff6a6?auto=format&fit=crop&w=800&q=85" alt="芝士奶蓋茶"><div class="drink-copy"><h3>金籤芝士奶蓋</h3><p>鹹甜綿密奶蓋覆上現萃茶湯，層次豐富，是犒賞自己的最佳理由。</p><strong>NT$ 70</strong></div></article>
+        <article class="drink"><img src="assets/jasmine-green-tea.png" alt="暖金茶店背景中的香片綠茶"><div class="drink-copy"><h3>香片綠茶</h3><p>清雅茉莉花香揉合爽口綠茶，入口輕盈、尾韻甘甜，為今天捎來一陣清新。</p><strong>NT$ 35</strong></div></article>
+        <article class="drink"><img src="assets/assam-black-tea.png" alt="暖金茶店背景中的阿薩姆紅茶"><div class="drink-copy"><h3>阿薩姆紅茶</h3><p>飽滿麥芽香氣與溫潤茶韻交疊，醇厚卻不膩，是忙碌日常裡安定的一杯。</p><strong>NT$ 35</strong></div></article>
+        <article class="drink"><img src="assets/four-seasons-tea.png" alt="暖金茶店背景中的四季春茶"><div class="drink-copy"><h3>四季春</h3><p>淡雅花香與清甜茶感自然展開，清爽回甘，像把春日微風收進每一口。</p><strong>NT$ 35</strong></div></article>
+        <article class="drink"><img src="assets/tieguanyin-tea.png" alt="暖金茶店背景中的鐵觀音茶"><div class="drink-copy"><h3>鐵觀音</h3><p>焙火香氣深沉溫暖，茶湯醇順、餘韻悠長，適合留一點時間慢慢品味。</p><strong>NT$ 35</strong></div></article>
+        <article class="drink"><img src="assets/pearl-milk-tea-v2.png" alt="暖金茶店背景中的上上珍珠鮮奶茶"><div class="drink-copy"><h3>上上珍珠鮮奶茶</h3><p>醇厚茶香、滑順鮮奶與每日熬煮珍珠，經典也能有新的好心情。</p><strong>NT$ 65</strong></div></article>
+        <article class="drink"><img src="assets/fruit-tea.png" alt="暖金茶店背景中的現萃水果茶"><div class="drink-copy"><h3>好運現萃水果茶</h3><p>清爽茶湯揉合當季果香，酸甜明亮，替午後補上一格元氣。</p><strong>NT$ 75</strong></div></article>
+        <article class="drink"><img src="assets/cheese-foam-tea.png" alt="暖金茶店背景中的芝士奶蓋茶"><div class="drink-copy"><h3>金籤芝士奶蓋</h3><p>鹹甜綿密奶蓋覆上現萃茶湯，層次豐富，是犒賞自己的最佳理由。</p><strong>NT$ 70</strong></div></article>
       </div>
     </section>
 
@@ -187,7 +252,7 @@
       <form id="orderForm">
         <div class="form-grid">
           <div><label for="name">你的名字</label><input id="name" name="name" required placeholder="請輸入姓名"></div>
-          <div><label for="drink">選擇飲品</label><select id="drink" name="drink" required><option value="">請選擇</option><option>上上珍珠鮮奶茶</option><option>好運現萃水果茶</option><option>金籤芝士奶蓋</option></select></div>
+          <div><label for="drink">選擇飲品</label><select id="drink" name="drink" required><option value="">請選擇</option><option>香片綠茶</option><option>阿薩姆紅茶</option><option>四季春</option><option>鐵觀音</option><option>上上珍珠鮮奶茶</option><option>好運現萃水果茶</option><option>金籤芝士奶蓋</option></select></div>
           <div><label for="sugar">甜度</label><select id="sugar" name="sugar"><option>正常甜</option><option>少糖</option><option>半糖</option><option>微糖</option><option>無糖</option></select></div>
           <div><label for="ice">冰量</label><select id="ice" name="ice"><option>正常冰</option><option>少冰</option><option>微冰</option><option>去冰</option><option>熱飲</option></select></div>
         </div>
